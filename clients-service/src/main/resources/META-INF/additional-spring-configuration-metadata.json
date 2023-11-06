@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "wsalquinga.openapi.local-url",
+      "type": "java.lang.String",
+      "description": "Description for wsalquinga.openapi.local-url."
+  }
+] }

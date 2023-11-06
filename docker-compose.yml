@@ -1,0 +1,73 @@
+version: '3.7'
+services:
+  # Clients Data Base (MySQL DB)
+  mysql8-db:
+    container_name: mysql8-db
+    image: mysql:8.0.34
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: clients
+    ports:
+      - "3306:3306"
+    restart: on-failure
+    networks:
+      - microservices-net
+
+  # Clients Microservice
+  clients-service:
+    container_name: clients-service
+    build:
+      context: ./clients-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    volumes:
+      - ./clients-service/src/main/resources/application-docker.properties:/app/application-docker.properties
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql8-db
+    restart: on-failure
+    networks:
+      - microservices-net
+
+  # Accounts Data Base (Postgres DB)
+  postgres16-db:
+    container_name: postgres16-db
+    image: postgres:16.0
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: accounts
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    networks:
+      - microservices-net
+
+  # Accounts Microservice
+  accounts-service:
+    container_name: accounts-service
+    build:
+      context: ./accounts-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    volumes:
+      - ./accounts-service/src/main/resources/application-docker.properties:/app/application-docker.properties
+    ports:
+      - "9090:9090"
+    depends_on:
+      - postgres16-db
+      - clients-service
+    restart: on-failure
+    networks:
+      - microservices-net
+
+networks:
+  microservices-net:
+    name: microservices-net
+    driver: bridge
