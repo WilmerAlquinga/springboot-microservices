@@ -67,6 +67,21 @@ services:
     networks:
       - microservices-net
 
+  # Clients Data Base (MySQL DB)
+  mysql8-test-db:
+    container_name: mysql8-test-db
+    image: mysql:8.0.34
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: clients
+    ports:
+      - "3307:3306"
+    restart: on-failure
+    networks:
+      - microservices-net
+
 networks:
   microservices-net:
     name: microservices-net

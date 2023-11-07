@@ -1,5 +1,6 @@
 package dev.wsalquinga.clients_service.service.impl;
 
+import dev.wsalquinga.clients_service.common.enums.ExceptionMessageEnum;
 import dev.wsalquinga.clients_service.dto.ClientDTO;
 import dev.wsalquinga.clients_service.dto.projection.ClientProjectionDTO;
 import dev.wsalquinga.clients_service.entity.Client;
@@ -35,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client getClientById(Long id) {
         return this.clientRepository.findValidById(id).orElseThrow(
-                () -> new ResourceNotFoundException("No se encontró el Cliente con id: " + id));
+                () -> new ResourceNotFoundException(ExceptionMessageEnum.CLIENT_NOT_FOUND.getMessage() + id));
     }
 
     @Override
