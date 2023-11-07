@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,10 +39,11 @@ public class ClientController {
         return ResponseEntity.ok(this.clientService.getById(id));
     }
 
-    @PostMapping
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
     @Operation(summary = "Create a new Client", tags = {"clients", "post"})
     public ResponseEntity<ClientDTO> create(
-            @Valid @RequestBody ClientDTO client
+            @RequestBody @Valid ClientDTO client
     ) {
         return new ResponseEntity<>(this.clientService.create(client), HttpStatus.CREATED);
     }
@@ -50,7 +52,7 @@ public class ClientController {
     @Operation(summary = "Update existing Client by ID", tags = {"clients", "put"})
     public ResponseEntity<ClientDTO> update(
             @PathVariable(name = "clientId") Long id,
-            @Valid @RequestBody ClientDTO clientDTO
+            @RequestBody @Valid ClientDTO clientDTO
     ) {
         return new ResponseEntity<>(this.clientService.update(clientDTO, id), HttpStatus.CREATED);
     }

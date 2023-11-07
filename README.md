@@ -13,8 +13,14 @@ ___
 ___
 ### Execute this application
 To run this application you need a MySQL 8 and Postgresql 16 database.
-If you use docker you can execute the following command to run the containers:
+
+Before running the containers you need to run: `mvn clean package` in ***./clients-service*** and ***./accounts-service***
+
+After that, to run the containers, you can execute the following command in the root folder:
 >`docker-compose up`
+
+To run Tests you can execute the following command in the local environment: 
+>`mvn test`
 
 After that you can initialize the microservices, the initial schema is automatically created with flyway
 

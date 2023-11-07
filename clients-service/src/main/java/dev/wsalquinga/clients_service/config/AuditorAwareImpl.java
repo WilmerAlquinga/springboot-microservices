@@ -1,7 +1,6 @@
 package dev.wsalquinga.clients_service.config;
 
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -9,8 +8,10 @@ import java.util.Optional;
  * @author wsalquinga on 27/10/2023
  */
 public class AuditorAwareImpl implements AuditorAware<String> {
+    public static final String USER = "Guest User";
+
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.of("Guest User");
+        return Optional.of(USER);
     }
 }
